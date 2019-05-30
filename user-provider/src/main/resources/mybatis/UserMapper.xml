@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.mapper.UserMapper" >
+
+    <select id="findUserCount" resultType="int" parameterType="com.jk.model.UserBean">
+        select count(*) from t_user
+        <!--<include refid="where"></include>-->
+    </select>
+    <select id="findUserList" resultType="com.jk.model.UserBean">
+        select * from t_user
+        <!--<include refid="where"></include>-->
+        limit #{start},#{rows}
+    </select>
+
+</mapper>

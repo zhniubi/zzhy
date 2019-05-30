@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <script src="/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="/js/bootstrap-table/bootstrap-table.css">
+    <script src="/js/bootstrap-table/bootstrap-table.js"></script>
+    <link rel="stylesheet" href="/bootstrap3/css/bootstrap.css">
+    <script src="/bootstrap3/js/bootstrap.js"></script>
+    <script src="/js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+    <script src="/js/bootstrap-bootbox/bootbox.js"></script>
+
+
+</head>
+<body>
+
+<!--tab表格-->
+<div class="table-box-list">
+    <table class="table table-hover" id="userTable"></table>
+</div>
+</body>
+<script>
+    //页面初始化
+    $(function () {
+        initMyTable();
+    })
+    //条查刷新
+    function searchUser(){
+        $("#userTable").bootstrapTable('refresh');
+    }
+    //查询药品库数据
+    function initMyTable(){
+        $("#userTable").bootstrapTable({
+            url:"/user/findUserList",
+            pagination:true,
+            pageList:[5,10,15,20],
+            pageNumber:1,
+            pageSize:5,
+            //search:true,//是否显示搜索框
+            //searchText:'试试',//初始化搜索文字
+            showColumns:false,//是否显示 内容列下拉框
+            showToggle:false,//是否显示 切换试图（table/card）按钮
+            showPaginationSwitch:false,//是否显示 数据条数
+            sidePagination: "server",// 服务端分页
+            showRefresh:false,//是否显示刷新按钮
+            detailView:false,//设置为 true 可以显示详细页面模式。
+            showFooter:false,//是否显示列脚
+            clickToSelect: true, //是否启用点击选中行
+            striped:true,//斑马线
+            queryParams:function(){
+                return{
+                    page:this.pageNumber,
+                    rows:this.pageSize,
+
+                }
+            },
+            columns:[
+                {checkbox:true},
+                {field:'id',title:"主键ID"},
+                {field:'name',title:'用户名'},
+                {field:'headImg',title:'头像',formatter:function(value,row,index){
+                        return '<img width="50px" height="50px" src="'+value+'"/>'
+                    }},
+                {field:'loginNumber',title:'账号'},
+                {field:'password',title:'密码'},
+                {field:'sex',title:'性别',formatter:function(value,row,index){
+                        return value == 1 ? "男" : "女";
+                    }},
+                {field:'birthday',title:'生日'},
+                {field:'deptName',title:'部门'},
+                {field:'status',title:'状态',formatter:function(value,row,index){
+                        return value == 0 ? "正常" : "<font color='red'>锁定</font>";
+                    }},
+                {field:'age',title:'年龄'},
+                {field:'roleName',title:'角色'},
+                {field:'provinceName',title:'地区',formatter:function(value,row,index){
+                        return value + "-" + row.cityName;
+                    }},
+                {field:'123',title:'操作',formatter:function(value,row,index){
+                        return '<a   href="javascript:openUserEdit('+row.id+');">修改</a>';
+                    }}
+            ]
+        })
+    }
+</script>
+</html>

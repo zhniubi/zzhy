@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="/js/jquery.min.js"></script>
+    <!-- 引入bootstrap的css、js -->
+    <link href="/js/bootstrap-table/bootstrap-table.css">
+    <script type="text/javascript" src="/js/bootstrap-table/bootstrap-table.js"></script>
+    <script src="/js/bootstrap-bootbox/bootbox.js"></script>
+    <link rel="stylesheet" href="/bootstrap3/css/bootstrap.css">
+    <script type="text/javascript" src="/bootstrap3/js/bootstrap.js"></script>
+    <script src="/js/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+    <script src="/js/bootStrap-addTabs/bootstrap.addtabs.min.js"></script>
+    <link rel="stylesheet" href="/js/bootStrap-addTabs/bootstrap.addtabs.css">
+    <link rel="stylesheet" href="/js/bootstrap-treeview/bootstrap-treeview.min.css">
+</head>
+<body>
+<
+<!-- 导航条 -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">ZHDG</a>
+        </div>
+    </div>
+</nav>
+<!-- 内容布局容器 -->
+<div class="container-fluid " style="margin-top: 59px;" >
+    <div class="row">
+        <div class="col-md-2">
+            <div id="navTree"></div>
+        </div>
+        <div class="col-md-10">
+            <div id="myTabs">
+                <!-- 新选项卡 -->
+                <ul class="nav nav-tabs" id="tablist">
+                    <li role="presentation" class="active"><a href="#home"
+                                                              role="tab" data-toggle="tab">欢迎</a></li>
+                </ul>
+
+                <!-- 选项卡下内容 -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="home"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    $(function() {
+        initNavTree();
+    })
+    function initNavTree() {
+        $.ajax({
+            url : "/user/findTree",
+            data : {},
+            dataType : "json",
+            success : function(data) {
+                $('#navTree').treeview({
+                    data : data,
+                    onNodeSelected : function(event, node) {
+
+                        $.addtabs.add({
+                            id : node.id,
+                            title : node.text,
+                            url : node.path
+                        });
+
+                    }
+                });
+
+            }
+        })
+    }
+</script>
+</html>
